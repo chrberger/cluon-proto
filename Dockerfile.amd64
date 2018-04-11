@@ -13,27 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Part to build cluon-livefeed.
-FROM alpine:3.7 as builder
-MAINTAINER Christian Berger "christian.berger@gu.se"
-
-RUN apk update && \
-    apk --no-cache add \
-        g++
-ADD . /opt/sources
-WORKDIR /opt/sources
-RUN ln -sf cluon-complete-v0.0.70.hpp cluon-complete.cpp && \
-    g++ -std=c++14 -Wall -D HAVE_CLUON_MSC -pthread -s -static -static-libgcc -static-libstdc++ -o /tmp/cluon-msc cluon-complete.cpp
-
-
-# Part to deploy cluon-livefeed.
-FROM alpine:3.7
+FROM chrberger/cluon:latest
 MAINTAINER Christian Berger "christian.berger@gu.se"
 
 RUN apk update && \
     apk --no-cache add \
         protobuf
-
-WORKDIR /usr/bin
-COPY --from=builder /tmp/cluon-msc .
 

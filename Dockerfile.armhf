@@ -13,43 +13,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Part to build cluon-livefeed.
-FROM pipill/armhf-alpine:edge as builder
+FROM chrberger/cluon-armhf:latest
 MAINTAINER Christian Berger "christian.berger@gu.se"
 
 RUN [ "cross-build-start" ]
-
-RUN cat /etc/apk/repositories && \
-    echo http://dl-4.alpinelinux.org/alpine/v3.7/main > /etc/apk/repositories && \
-    echo http://dl-4.alpinelinux.org/alpine/v3.7/community >> /etc/apk/repositories
-
-RUN apk update && \
-    apk --no-cache add \
-        g++
-ADD . /opt/sources
-WORKDIR /opt/sources
-RUN ln -sf cluon-complete-v0.0.70.hpp cluon-complete.cpp && \
-    g++ -std=c++14 -Wall -D HAVE_CLUON_MSC -pthread -s -static -static-libgcc -static-libstdc++ -o /tmp/cluon-msc cluon-complete.cpp
-
-RUN [ "cross-build-end" ]
-
-
-# Part to deploy cluon-livefeed.
-FROM pipill/armhf-alpine:edge
-MAINTAINER Christian Berger "christian.berger@gu.se"
-
-RUN [ "cross-build-start" ]
-
-RUN cat /etc/apk/repositories && \
-    echo http://dl-4.alpinelinux.org/alpine/v3.7/main > /etc/apk/repositories && \
-    echo http://dl-4.alpinelinux.org/alpine/v3.7/community >> /etc/apk/repositories
 
 RUN apk update && \
     apk --no-cache add \
         protobuf
 
 RUN [ "cross-build-end" ]
-
-WORKDIR /usr/bin
-COPY --from=builder /tmp/cluon-msc .
 
