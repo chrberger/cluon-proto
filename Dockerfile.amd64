@@ -16,7 +16,11 @@
 FROM chrberger/cluon:latest
 MAINTAINER Christian Berger "christian.berger@gu.se"
 
+RUN cat /etc/apk/repositories && \
+    echo http://dl-4.alpinelinux.org/alpine/v3.4/main > /etc/apk/repositories && \
+    echo http://dl-4.alpinelinux.org/alpine/v3.4/community >> /etc/apk/repositories
+
 RUN apk update && \
     apk --no-cache add \
-        protobuf
+        protobuf=2.6.1-r4
 
