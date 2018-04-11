@@ -29,6 +29,17 @@ This microservice is created automatically on changes to this repository via Doc
 * [x86_64](https://hub.docker.com/r/chrberger/cluon-proto-amd64/tags/)
 * [armhf](https://hub.docker.com/r/chrberger/cluon-proto-armhf/tags/)
 
+This microservice is supposed to be used during the development with [libcluon](https://github.com/chrberger/libcluon)-based applications to define messages, which shall be used with other applications that in-turn might use Protobuf. Let's assume you have a message specification in .odvd like the [OpenDLV Standard Message Set](https://github.com/chalmers-revere/opendlv.standard-message-set) that you want to use with a Protobuf-capable application. This microservice can help to transform a given .odvd file into a .proto file and afterwards, into the language-specific bindings like for Python. To use this microservice, you invoke it as follows:
+
+1. Generate the corresponding .proto file:
+```
+docker run --rm -ti -v $PWD:/opt/from_host -w /opt/from_host chrberger/cluon-proto-multi:v0.0.70 cluon-msc --proto cluonDataStructures.odvd > cluonDataStructures.proto
+```
+
+2. Generate the Python-bindings via protoc (included):
+```
+docker run --rm -ti -v $PWD:/opt/from_host -w /opt/from_host chrberger/cluon-proto-multi:v0.0.70 protoc --python_out=. cluonDataStructures.proto
+```
 
 ## License
 
