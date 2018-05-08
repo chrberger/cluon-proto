@@ -33,12 +33,12 @@ This microservice is supposed to be used during the development with [libcluon](
 
 1. Generate the corresponding .proto file:
 ```
-docker run --rm -ti -v $PWD:/opt/from_host -w /opt/from_host chrberger/cluon-proto-multi:v0.0.70 cluon-msc --proto cluonDataStructures.odvd > cluonDataStructures.proto
+docker run --rm -ti -v $PWD:/opt/from_host -w /opt/from_host chrberger/cluon-proto-multi:v0.0.89 cluon-msc --proto cluonDataStructures.odvd > cluonDataStructures.proto
 ```
 
 2. Generate the Python-bindings via protoc (included):
 ```
-docker run --rm -ti -v $PWD:/opt/from_host -w /opt/from_host chrberger/cluon-proto-multi:v0.0.70 protoc --python_out=. cluonDataStructures.proto
+docker run --rm -ti -v $PWD:/opt/from_host -w /opt/from_host chrberger/cluon-proto-multi:v0.0.89 protoc --python_out=. cluonDataStructures.proto
 ```
 
 ## License
